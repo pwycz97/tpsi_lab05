@@ -18,31 +18,38 @@ public class StudentListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
-        List<Student> studenci;
-        
-        if(session.isNew()) {
-            studenci = new ArrayList<>();    
-            session.setAttribute("licznik", 1);
-            session.setAttribute("studenci", studenci);
-        }else{
-           
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String email = request.getParameter("email");
-            
-            if(!isNull(firstName) && !isNull(lastName) && !isNull(email)) {
-                studenci = (List<Student>) session.getAttribute("studenci");
-                studenci.add(new Student(firstName,lastName,email));  
-                session.setAttribute("studenci", studenci);
-            }
-            
-            Integer counter = (Integer) session.getAttribute("licznik");
-            counter++;
-            session.setAttribute("licznik", counter);    
+
+        Integer licznik = (Integer) session.getAttribute("licznik");
+        if (isNull(licznik)) {
+            licznik = 1;
+        } else {
+            licznik++;
         }
 
+        session.setAttribute("licznik", licznik);
+        request.getRequestDispatcher("studentList.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        List<Student> studenci = new ArrayList<>();
+        
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        
+         if (!isNull(session.getAttribute("studenci"))) {
+            studenci = (List<Student>) session.getAttribute("studenci");
+        }
+        
+        studenci.add(new Student(firstName, lastName, email));
+
+        session.setAttribute("studenci", studenci);
         request.getRequestDispatcher("studentList.jsp").forward(request, response);
         
     }

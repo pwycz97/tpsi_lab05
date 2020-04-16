@@ -7,8 +7,8 @@
         <title>Java Web - laboratorium 5</title>
     </head>
     <body>
-        
-        <h5>Liczba odwiedzin na stronie: ${licznik}</h5>   
+        <a href='index.html'>POWRÓT DO STRONY GŁÓWNEJ</a>
+        <h5>Liczba odwiedzin na stronie: ${sessionScope["licznik"]}</h5>   
         <hr>
         
         <h3>Lista studentów:</h3>
@@ -25,7 +25,7 @@
         
         <hr>
         <h3>Dodawanie studenta</h3>
-        <form action='studentList' method='get'>
+        <form action='studentList' method='post'>
             Wprowadź dane poniżej:<br>
             <label for='firstName'>Imię: </label>
             <input type='text' id='firstName' name='firstName'><br>
