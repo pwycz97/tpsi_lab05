@@ -20,7 +20,6 @@ public class StudentListServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
         Integer licznik = (Integer) session.getAttribute("licznik");
         if (isNull(licznik)) {
             licznik = 1;
@@ -42,6 +41,15 @@ public class StudentListServlet extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
+        
+        Integer licznik = (Integer) session.getAttribute("licznik");
+        if (isNull(licznik)) {
+            licznik = 1;
+        } else {
+            licznik++;
+        }
+
+        session.setAttribute("licznik", licznik);
         
          if (!isNull(session.getAttribute("studenci"))) {
             studenci = (List<Student>) session.getAttribute("studenci");
